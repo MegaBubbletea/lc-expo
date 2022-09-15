@@ -25,7 +25,7 @@ const HomeStackNavigator = () => {
       <Stack.Screen
         name="Tab"
         component={TabNavigator}
-        options={{ title: false }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="New Tweet"
