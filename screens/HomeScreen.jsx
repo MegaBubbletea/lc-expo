@@ -12,7 +12,7 @@ import {
 
 import { AntDesign, EvilIcons } from "@expo/vector-icons";
 
-import axios from "axios";
+import axiosConfig from "../helpers/axiosConfig";
 import { formatDistanceToNowStrict } from "date-fns";
 import locale from "date-fns/locale/en-US";
 import formatDistance from "../helpers/formatDistanceCustom";
@@ -29,8 +29,8 @@ export default function HomeScreen({ navigation }) {
   }, [page]);
 
   function getAllTweets() {
-    axios
-      .get(`http://lc-laravel-twitter-clone.test/api/tweets?page=${page}`)
+    axiosConfig
+      .get(`/tweets?page=${page}`)
       .then((response) => {
         // console.log(response.data);
         if (page === 1) {
@@ -68,8 +68,8 @@ export default function HomeScreen({ navigation }) {
     navigation.navigate("Profile Screen");
   }
 
-  function gotoSingleTweet() {
-    navigation.navigate("Tweet Screen");
+  function gotoSingleTweet(tweetId) {
+    navigation.navigate("Tweet Screen", { tweetId: tweetId });
   }
 
   function gotoNewTweet() {
@@ -110,7 +110,7 @@ export default function HomeScreen({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.tweetContentContainer}
-          onPress={() => gotoSingleTweet()}
+          onPress={() => gotoSingleTweet(tweet.id)}
         >
           <Text style={styles.tweetContent}>{tweet.body}</Text>
         </TouchableOpacity>
