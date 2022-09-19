@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -11,16 +11,22 @@ import {
 import { Entypo, EvilIcons } from "@expo/vector-icons";
 import axiosConfig from "../helpers/axiosConfig";
 import { format } from "date-fns";
+import { AuthContext } from "../context/AuthProvider";
 
 export default function TweetScreen({ route, navigation }) {
   const [tweet, setTweet] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     getTweet();
   }, []);
 
   function getTweet() {
+    axiosConfig.defaults.headers.common[
+      "Authorization"
+    ] = `Bearer ${user.token}`;
+
     axiosConfig
       .get(`/tweets/${route.params.tweetId}`)
       .then((response) => {
